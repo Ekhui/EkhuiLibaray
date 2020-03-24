@@ -1,4 +1,4 @@
-package com.example.ekhuibaselibrary.api.exception.utils
+package com.example.ekhuibaselibrary.utils
 
 import java.text.SimpleDateFormat
 import java.util.*
