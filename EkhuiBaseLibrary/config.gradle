@@ -3,7 +3,7 @@
 project.ext {
     compileSdkVersion = 29
     buildToolsVersion = "29.0.2"
-    applicationId = "com.zkxt.smartzone"
+    applicationId = "Ekhui.Library"
     minSdkVersion = 16
     targetSdkVersion = 29
     versionCode = 1
