@@ -37,6 +37,10 @@ fun String.toastAndLog() {
     Log.i("zoo", this)
 }
 
+/**
+ * Created by Ekhui on 2020/3/24.
+ * 作用：列表刷新成功
+ */
 
 fun RefreshLayout.onComplete(isNoMore: Boolean) {
     Thread(Runnable {
@@ -50,6 +54,10 @@ fun RefreshLayout.onComplete(isNoMore: Boolean) {
 
 }
 
+/**
+ * Created by Ekhui on 2020/3/24.
+ * 作用：禁止输入框换行
+ */
 fun EditText.banEnter() {
     this.setOnEditorActionListener { _, _, keyEvent ->
         KeyboardUtils.hideSoftInput(this)
@@ -103,7 +111,11 @@ fun ImageView.loadImage(path: Any) {
         .into(this)
 }
 
-//RecyclerView增加分割线
+/**
+ * Created by Ekhui on 2020/3/24.
+ * 作用：RecyclerView增加分割线
+ */
+
 fun RecyclerView.addLinearLine() {
     this.addItemDecoration(
         RecycleLineDivider(
