@@ -3,6 +3,8 @@ package com.example.ekhuibaselibrary.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
@@ -14,6 +16,24 @@ import kotlin.math.roundToInt
  * Created by Ekhui on 2019/11/21.
  */
 object BeanUtils {
+
+    /**
+     * Created by Ekhui on 2020/4/22.
+     * 作用：解析接口返回数据含有map
+     */
+
+    inline fun <reified T> fetchResponseMap(dataList: List<*>): MutableList<T> {
+        val newList: MutableList<T> = ArrayList()
+        dataList.forEach {
+            val gson: Gson = GsonBuilder().enableComplexMapKeySerialization().create()
+            val jsonString = gson.toJson(it)
+            val bean: T =
+                gson.fromJson(jsonString, T::class.java)
+            newList.add(bean)
+        }
+        return newList
+    }
+
 
     fun hideKeyBoard(view: View, context: Context) {
         val inputMethodManager =

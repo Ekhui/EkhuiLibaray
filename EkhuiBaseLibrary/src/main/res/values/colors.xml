@@ -27,5 +27,7 @@
     <color name="deepBlue20">#330B2653</color>
     <color name="gold">#FCB906</color>
     <color name="red">#FF3363</color>
+    <color name="lightRed">#EA495F</color>
     <color name="softGreen">#b1e7d7</color>
+    <color name="orange">#FC9738</color>
 </resources>
