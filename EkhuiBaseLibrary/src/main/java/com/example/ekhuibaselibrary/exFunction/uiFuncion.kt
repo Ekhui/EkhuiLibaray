@@ -60,7 +60,11 @@ fun RefreshLayout.onComplete(isNoMore: Boolean) {
  */
 fun EditText.banEnter() {
     this.setOnEditorActionListener { _, _, keyEvent ->
+
         KeyboardUtils.hideSoftInput(this)
+        if (keyEvent == null)
+            return@setOnEditorActionListener true
+
         return@setOnEditorActionListener (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER);
     }
 }
