@@ -34,6 +34,25 @@ object BeanUtils {
         return newList
     }
 
+    /**
+     * Created by Ekhui on 2020/4/25.
+     * 作用：字符串转数组 符号隔开
+     */
+    fun <T> joinToString(
+        collection: Collection<T>,
+        separator: String = ","
+    ): String {
+        val sb = StringBuffer()
+
+        for ((index, element) in collection.withIndex()) {
+            if (index > 0) {
+                sb.append(separator)
+            }
+            sb.append(element)
+        }
+
+        return sb.toString()
+    }
 
     fun hideKeyBoard(view: View, context: Context) {
         val inputMethodManager =
