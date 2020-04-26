@@ -22,18 +22,18 @@ import java.io.FileOutputStream
  * @param filePath
  * @return
  */
-fun getInstallAppIntent(context: Context, filePath: String): Intent? {
+fun getInstallAppIntent(context: Context, filePath: String,applicationID:String): Intent? {
     //apk文件的本地路径
     val apkFile = File(filePath)
     if (!apkFile.exists()) {
         return null
     }
     val intent = Intent(Intent.ACTION_VIEW)
-    val contentUri: Uri = getUriForFile(context, apkFile)
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    val contentUri: Uri = getUriForFile(context, apkFile,applicationID)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
     return intent
 }
@@ -65,11 +65,11 @@ fun refreshMedia(context: Context?, filePath: String) {
  * @param file
  * @return
  */
-fun getUriForFile(mContext: Context?, file: File?): Uri {
+fun getUriForFile(mContext: Context?, file: File? ,applicationID:String): Uri {
     var fileUri: Uri? = null
     fileUri = if (Build.VERSION.SDK_INT >= 24) {
         FileProvider.getUriForFile(
-            mContext!!, "com.zkxt.smartzone.fileprovider",
+            mContext!!, "${applicationID}.fileprovider",
             file!!
         )
     } else {
@@ -77,6 +77,8 @@ fun getUriForFile(mContext: Context?, file: File?): Uri {
     }
     return fileUri
 }
+
+
 
 fun copyFile(
     fromFile: File,
