@@ -22,20 +22,23 @@ import java.io.FileOutputStream
  * @param filePath
  * @return
  */
-fun getInstallAppIntent(context: Context, filePath: String,applicationID:String): Intent? {
+fun getInstallAppIntent(context: Context, filePath: String, applicationID: String): Intent? {
     //apk文件的本地路径
     val apkFile = File(filePath)
     if (!apkFile.exists()) {
         return null
     }
-    val intent = Intent(Intent.ACTION_VIEW)
-    val contentUri: Uri = getUriForFile(context, apkFile,applicationID)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+
+    return Intent(Intent.ACTION_VIEW).apply {
+
+        val contentUri: Uri = getUriForFile(context, apkFile, applicationID)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        }
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        setDataAndType(contentUri, "application/vnd.android.package-archive")
+
     }
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
-    return intent
 }
 
 
@@ -65,9 +68,8 @@ fun refreshMedia(context: Context?, filePath: String) {
  * @param file
  * @return
  */
-fun getUriForFile(mContext: Context?, file: File? ,applicationID:String): Uri {
-    var fileUri: Uri? = null
-    fileUri = if (Build.VERSION.SDK_INT >= 24) {
+fun getUriForFile(mContext: Context?, file: File?, applicationID: String): Uri {
+    return if (Build.VERSION.SDK_INT >= 24) {
         FileProvider.getUriForFile(
             mContext!!, "${applicationID}.fileprovider",
             file!!
@@ -75,9 +77,7 @@ fun getUriForFile(mContext: Context?, file: File? ,applicationID:String): Uri {
     } else {
         Uri.fromFile(file)
     }
-    return fileUri
 }
-
 
 
 fun copyFile(
@@ -108,15 +108,15 @@ fun copyFile(
     //   return ;
     //   }
     try {
-        val fosfrom = FileInputStream(fromFile)
-        val fosto = FileOutputStream(toFile)
+        val fileFrom = FileInputStream(fromFile)
+        val fileTo = FileOutputStream(toFile)
         val bt = ByteArray(1024)
         var c: Int
-        while (fosfrom.read(bt).also { c = it } > 0) {
-            fosto.write(bt, 0, c) //将内容写到新文件当中
+        while (fileFrom.read(bt).also { c = it } > 0) {
+            fileTo.write(bt, 0, c) //将内容写到新文件当中
         }
-        fosfrom.close()
-        fosto.close()
+        fileFrom.close()
+        fileTo.close()
 //        Log.e("readfile", "success")
     } catch (ex: java.lang.Exception) {
 //        Log.e("readfile", ex.message)
