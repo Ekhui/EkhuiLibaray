@@ -1,10 +1,16 @@
 package com.example.ekhuibaselibrary.utils
 
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileInputStream
@@ -121,4 +127,230 @@ fun copyFile(
     } catch (ex: java.lang.Exception) {
 //        Log.e("readfile", ex.message)
     }
+}
+
+/**
+ * Created by Ekhui on 2020/4/29.
+ * 作用：打开文件选择器 选择文件
+ */
+
+fun openAndChooseFile(activity: AppCompatActivity, requestCode: Int) {
+    val DOC = "application/msword"
+    val DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    val XLS = "application/vnd.ms-excel application/x-excel"
+    val XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    val PPT = "application/vnd.ms-powerpoint"
+    val PPTX = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    val PDF = "application/pdf"
+    val TXT = "text/plain"
+    val ZIP = "application/x-zip-compressed"
+
+
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    val mimeTypes =
+        arrayOf(DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, TXT, ZIP)
+    intent.type = "application/*";
+    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+    intent.addCategory(Intent.CATEGORY_OPENABLE)
+    activity.startActivityForResult(intent, requestCode)
+}
+
+/**
+ * Created by Ekhui on 2020/4/29.
+ * 作用：  获取文件后缀
+ */
+
+fun getFileType(fileName: String?): String? {
+    return fileName?.substring(fileName.lastIndexOf(".") + 1)
+}
+
+/**
+ * Created by Ekhui on 2020/4/29.
+ * 作用：  获取文件名
+ */
+
+fun getFileName(fileName: String?): String? {
+    val indexStart = fileName?.lastIndexOf("/") ?: 0
+//    val indexEnd = fileName?.lastIndexOf(".")
+//    return fileName?.substring(indexStart!! + 1, indexEnd!!)
+    return fileName?.substring(indexStart + 1)
+
+}
+
+
+fun getUriFromFile(
+    context: Context?,
+    file: File?,
+    applicationID: String
+): Uri? {
+    if (context == null || file == null) {
+        throw NullPointerException()
+    }
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        FileProvider.getUriForFile(
+            context.applicationContext,
+            "$applicationID.fileprovider",
+            file
+        )
+    } else {
+        Uri.fromFile(file)
+    }
+}
+
+/**
+ * 使用第三方qq文件管理器打开
+ *
+ * @param uri
+ *
+ * @return
+ */
+fun isQQMediaDocument(uri: Uri): Boolean {
+    return "com.tencent.mtt.fileprovider" == uri.authority
+}
+
+/**
+ * @param uri
+ * The Uri to check.
+ *
+ * @return Whether the Uri authority is Google Photos.
+ */
+fun isGooglePhotosUri(uri: Uri): Boolean {
+    return "com.google.android.apps.photos.content" == uri.authority
+}
+
+/**
+ * Get the value of the data column for this Uri. This is useful for
+ * MediaStore Uris, and other file-based ContentProviders.
+ *
+ * @param context
+ * The context.
+ * @param uri
+ * The Uri to query.
+ * @param selection
+ * (Optional) Filter used in the query.
+ * @param selectionArgs
+ * (Optional) Selection arguments used in the query.
+ *
+ * @return The value of the _data column, which is typically a file path.
+ */
+fun getDataColumn(
+    context: Context,
+    uri: Uri?,
+    selection: String?,
+    selectionArgs: Array<String?>?
+): String? {
+    var cursor: Cursor? = null
+    val column = MediaStore.MediaColumns.DATA
+    val projection = arrayOf(column)
+    try {
+        cursor =
+            context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+        if (cursor != null && cursor.moveToFirst()) {
+            val column_index: Int = cursor.getColumnIndexOrThrow(column)
+            return cursor.getString(column_index)
+        }
+    } finally {
+        cursor?.close()
+    }
+    return null
+}
+
+
+fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
+    return getDataColumn(context, contentUri, null, null)
+}
+
+/**
+ * Created by Ekhui on 2020/4/30.
+ * 作用：从内存选择
+ */
+
+fun isExternalStorageDocument(uri: Uri): Boolean {
+    return "com.android.externalstorage.documents" == uri.authority
+}
+
+/**
+ * Created by Ekhui on 2020/4/30.
+ * 作用：从下载选择
+ */
+
+fun isDownloadsDocument(uri: Uri): Boolean {
+    return "com.android.providers.downloads.documents" == uri.authority
+}
+
+/**
+ * Created by Ekhui on 2020/4/30.
+ * 作用：从媒体库选择
+ */
+
+fun isMediaDocument(uri: Uri): Boolean {
+    return "com.android.providers.media.documents" == uri.authority
+}
+
+/**
+ * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
+ */
+fun getFilePathFromUri(context: Context?, uri: Uri): String? {
+    val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+
+    // DocumentProvider
+    if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+        // ExternalStorageProvider
+        //一些三方的文件浏览器会进入到这个方法中，例如ES
+        //QQ文件管理器不在此列
+        if (isExternalStorageDocument(uri)) {
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":").toTypedArray()
+            val type = split[0]
+            if ("primary".equals(type, ignoreCase = true)) {
+                return Environment.getExternalStorageDirectory()
+                    .toString() + "/" + split[1]
+            }
+        } else if (isDownloadsDocument(uri)) {
+            val id = DocumentsContract.getDocumentId(uri)
+            val contentUri = ContentUris.withAppendedId(
+                Uri.parse("content://downloads/public_downloads"),
+                java.lang.Long.valueOf(id)
+            )
+            return getDataColumn(context!!, contentUri, null, null)
+        } else if (isMediaDocument(uri)) {
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":").toTypedArray()
+            val type = split[0]
+            var contentUri: Uri? = null
+            when (type) {
+                "image" -> {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                }
+                "video" -> {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                }
+                "audio" -> {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
+            }
+            val selection = "_id=?"
+            val selectionArgs =
+                arrayOf<String?>(split[1])
+            return getDataColumn(context!!, contentUri, selection, selectionArgs)
+        }
+    } else if ("content".equals(
+            uri.scheme,
+            ignoreCase = true
+        )
+    ) { // MediaStore (and general)
+        // Return the remote address
+        if (isGooglePhotosUri(uri)) return uri.lastPathSegment
+        if (isQQMediaDocument(uri)) {
+            val path = uri.path
+            val fileDir = Environment.getExternalStorageDirectory()
+            val file =
+                File(fileDir, path!!.substring("/QQBrowser".length, path.length))
+            return if (file.exists()) file.toString() else null
+        }
+        return getDataColumn(context!!, uri, null, null)
+    } else if ("file".equals(uri.scheme, ignoreCase = true)) { // File
+        return uri.path
+    }
+    return null
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
-class RecycleGridDivider @JvmOverloads constructor(private val space: Int = 1, private val color: Int = Color.TRANSPARENT) : ItemDecoration() {
+ class RecycleGridDivider @JvmOverloads constructor(private val space: Int = 1, private val color: Int = Color.TRANSPARENT) : ItemDecoration() {
     private fun initPaint() {
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = color
