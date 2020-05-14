@@ -1,6 +1,7 @@
 package com.example.ekhuibaselibrary.base;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -35,10 +35,12 @@ public abstract class BaseFragment<VM extends BaseViewModel, VDB extends ViewDat
         binding.setLifecycleOwner(this);
         createViewModel();
         initLogic();
+        Log.i("当前Fragment--> ", getClass().getName());
+
         return binding.getRoot();
     }
 
-    private void createViewModel(){
+    private void createViewModel() {
         if (mViewModel == null) {
             Class modelClass;
             Type type = getClass().getGenericSuperclass();

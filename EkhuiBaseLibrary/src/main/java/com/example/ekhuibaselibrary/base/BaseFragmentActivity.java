@@ -3,6 +3,7 @@ package com.example.ekhuibaselibrary.base;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -82,6 +83,8 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends
         binding = DataBindingUtil.setContentView(this, initLayout());
         binding.setLifecycleOwner(this);
         createViewModel();
+        Log.i("当前Activity--> ", getClass().getName());
+
         initLogic();
         if (savedInstanceState != null) {
             resetData(savedInstanceState);

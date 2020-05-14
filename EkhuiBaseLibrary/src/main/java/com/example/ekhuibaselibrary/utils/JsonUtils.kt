@@ -7,8 +7,10 @@ import java.io.InputStreamReader
 /**
  * Created by Ekhui on 2020/4/17.
  */
-class JsonUtils {
+ class JsonUtils {
     companion object {
+
+        @JvmStatic
         fun getJsonFile(inputStream: InputStream): String {
             val stringBuilder = StringBuilder()
             val isr = InputStreamReader(inputStream)
