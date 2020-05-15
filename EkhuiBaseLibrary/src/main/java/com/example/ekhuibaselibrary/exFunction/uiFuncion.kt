@@ -32,6 +32,22 @@ fun String.log() {
     Log.i("zoo", this)
 }
 
+/**
+ * Created by Ekhui on 2020/5/15.
+ * 作用：规范输入内容：   最后一位是小数点时消除小数点 / 只有一个点变成0
+ */
+fun String?.filterInt(): String? {
+    if (this == null || this.isEmpty())
+        return this
+
+    if (this.length == 1 && this == ".")
+        return "0"
+    if (this[this.length - 1].toString() == ".") {
+        return this.substring(0, this.length - 1)
+    }
+    return this
+}
+
 fun String.toastAndLog() {
     ToastUtils.showShort(this@toastAndLog)
     Log.i("zoo", this)
