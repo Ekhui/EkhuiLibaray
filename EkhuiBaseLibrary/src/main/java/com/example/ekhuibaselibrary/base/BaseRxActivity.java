@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.ekhuibaselibrary.R;
 import com.example.ekhuibaselibrary.custom.CustomDialog;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -42,6 +43,12 @@ public abstract class BaseRxActivity<VM extends BaseViewModel, VDB extends ViewD
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+    }
+
+    protected void initBG() {
+        Window window = getWindow();
+        window.setBackgroundDrawableResource(R.color.transparent);
+
     }
 
 
@@ -100,5 +107,8 @@ public abstract class BaseRxActivity<VM extends BaseViewModel, VDB extends ViewD
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        supportFinishAfterTransition();
+    }
 }

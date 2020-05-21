@@ -118,4 +118,10 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends
             mViewModel = (VM) ViewModelProviders.of(this).get(modelClass);
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        supportFinishAfterTransition();
+    }
 }

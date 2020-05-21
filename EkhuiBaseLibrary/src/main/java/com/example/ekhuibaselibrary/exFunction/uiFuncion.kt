@@ -1,10 +1,13 @@
 package com.example.ekhuibaselibrary.exFunction
 
+import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.*
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -146,10 +149,34 @@ fun RecyclerView.addLinearLine() {
     )
 }
 
+/**
+ * Created by Ekhui on 2020/5/18.
+ * 作用：获取系统Color资源
+ */
+
 fun Context.getColorForID(color: Int): Int {
     return ContextCompat.getColor(this, color)
 }
 
+/**
+ * Created by Ekhui on 2020/5/18.
+ * 作用：获取系统String资源
+ */
+
 fun getStringForID(id: Int): String {
     return StringUtils.getString(id);
 }
+
+
+/**
+ * Created by Ekhui on 2020/5/18.
+ * 作用：共享元素 跳转
+ */
+fun View.getOptions(): Bundle? {
+    return ActivityOptionsCompat
+        .makeSceneTransitionAnimation(
+            (this.context as Activity),
+            this, getStringForID(R.string.transitionName_toolBarTitle)
+        ).toBundle()
+}
+

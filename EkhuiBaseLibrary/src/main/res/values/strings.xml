@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EkhuiBaseLibrary</string>
+
+    <!--    共享元素-->
+    <string name="transitionName_toolBarTitle">transitionName_toolBarTitle</string>
+
 </resources>
