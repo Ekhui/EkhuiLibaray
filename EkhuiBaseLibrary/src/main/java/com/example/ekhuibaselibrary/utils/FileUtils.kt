@@ -149,11 +149,41 @@ fun openAndChooseFile(activity: AppCompatActivity, requestCode: Int) {
     val intent = Intent(Intent.ACTION_GET_CONTENT)
     val mimeTypes =
         arrayOf(DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, TXT, ZIP)
-    intent.type = "application/*";
-    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+    intent.type = "application/*"
+    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
     intent.addCategory(Intent.CATEGORY_OPENABLE)
     activity.startActivityForResult(intent, requestCode)
 }
+
+/**
+ * Created by Ekhui on 2020/4/29.
+ * 作用：打开文件选择器 选择文件(带图片)
+ */
+
+fun openAndChooseFileWithImage(activity: AppCompatActivity, requestCode: Int) {
+    val DOC = "application/msword"
+    val DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    val XLS = "application/vnd.ms-excel application/x-excel"
+    val XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    val PPT = "application/vnd.ms-powerpoint"
+    val PPTX = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    val PDF = "application/pdf"
+    val TXT = "text/plain"
+    val ZIP = "application/x-zip-compressed"
+    val JPEG = "image/jpeg"
+    val PNG = "image/png"
+    val JPG = "image/jpg"
+
+
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    val mimeTypes =
+        arrayOf(DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, TXT, ZIP, JPEG, PNG, JPG)
+    intent.type = "application/*"
+    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+    intent.addCategory(Intent.CATEGORY_OPENABLE)
+    activity.startActivityForResult(intent, requestCode)
+}
+
 
 /**
  * Created by Ekhui on 2020/4/29.
@@ -163,6 +193,17 @@ fun openAndChooseFile(activity: AppCompatActivity, requestCode: Int) {
 fun getFileType(fileName: String?): String? {
     return fileName?.substring(fileName.lastIndexOf(".") + 1)
 }
+
+/**
+ * Created by Ekhui on 2020/4/29.
+ * 作用：  判断文件是不是图片类型
+ */
+
+fun isImage(fileName: String?): Boolean {
+    val name = fileName?.substring(fileName.lastIndexOf(".") + 1)
+    return name == "jpg" || name == "jpeg" || name == "png"
+}
+
 
 /**
  * Created by Ekhui on 2020/4/29.

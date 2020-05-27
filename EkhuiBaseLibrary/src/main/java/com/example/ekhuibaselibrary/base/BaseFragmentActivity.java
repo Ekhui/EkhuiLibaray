@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.blankj.utilcode.util.BusUtils;
 import com.example.ekhuibaselibrary.custom.CustomDialog;
+import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -25,7 +26,7 @@ import io.reactivex.annotations.Nullable;
 /*
  * Created by Ekhui on 2019/11/20.
  */
-public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends FragmentActivity {
+public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends RxFragmentActivity {
     protected abstract int initLayout();
 
     protected abstract void initLogic();
@@ -44,20 +45,6 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends
 //    }
 //
     private CustomDialog customDialog;
-
-    //
-//    @BusUtils.Bus(tag = EVENT_SHOW_DIALOG)
-//    public void showDialog() {
-//        if (customDialog == null)
-//            customDialog = new CustomDialog(this, "");
-//        customDialog.show();
-//    }
-//
-//    @BusUtils.Bus(tag = EVENT_DIMISS_DIALOG)
-//    public void dismissDialog() {
-//        if (customDialog != null)
-//            customDialog.dismiss();
-//    }
     public void dismissDialog() {
         if (customDialog != null)
             customDialog.dismiss();
@@ -79,7 +66,6 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BusUtils.register(this);
         binding = DataBindingUtil.setContentView(this, initLayout());
         binding.setLifecycleOwner(this);
         createViewModel();

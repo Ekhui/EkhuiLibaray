@@ -2,6 +2,9 @@ package com.example.ekhuibaselibrary.exFunction
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -20,6 +23,7 @@ import com.example.ekhuibaselibrary.R
 import com.example.ekhuibaselibrary.itemDecoration.RecycleLineDivider
 import com.example.ekhuibaselibrary.utils.AFClickListener
 import com.scwang.smartrefresh.layout.api.RefreshLayout
+
 
 /**
  * Created by Ekhui on 2020/2/28.
@@ -131,8 +135,15 @@ fun View.setOnceClick(function: () -> Unit) {
 
 fun ImageView.loadImage(path: Any) {
     Glide.with(this.context).load(path)
-//            .fitCenter()
+//        .override(100, 100)
+//        .error(R.drawable.image_error)
         .into(this)
+}
+
+fun resize(context: Context, image: Drawable): Drawable? {
+    val b = (image as BitmapDrawable).bitmap
+    val bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false)
+    return BitmapDrawable(context.resources, bitmapResized)
 }
 
 /**
