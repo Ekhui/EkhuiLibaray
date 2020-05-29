@@ -10,10 +10,8 @@ import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.blankj.utilcode.util.BusUtils;
 import com.example.ekhuibaselibrary.custom.CustomDialog;
 import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
@@ -45,6 +43,7 @@ public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends
 //    }
 //
     private CustomDialog customDialog;
+
     public void dismissDialog() {
         if (customDialog != null)
             customDialog.dismiss();

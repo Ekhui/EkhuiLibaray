@@ -9,7 +9,6 @@ import java.util.*
 object DateUtil {
 
 
-
     //    @TypeConverter
     @JvmStatic
     fun long2Date(value: Long): Date {
@@ -50,6 +49,10 @@ object DateUtil {
 
     fun changeDate2DayStr(date: Date): String? {
         return SimpleDateFormat("HH:mm:ss").format(date)
+    }
+
+    fun changeDate2YearStr(date: Date): String? {
+        return SimpleDateFormat("yyyy-MM-dd").format(date)
     }
 
 //    fun changeData2Str(date: Date): String? {
