@@ -3,6 +3,7 @@ package com.example.ekhuibaselibrary.utils
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
@@ -11,6 +12,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import java.io.*
@@ -423,4 +425,65 @@ fun saveFile(bm: Bitmap, context: Context) {
     val uri = Uri.fromFile(myCaptureFile)
     intent.data = uri
     context.sendBroadcast(intent)
+}
+
+fun openFile(context: Context, filePath: String,  applicationID: String) {
+
+    val path = filePath
+
+    var contentUri: Uri? = null
+
+    contentUri = if (path.startsWith("content://")) {
+        Uri.parse(path)
+    } else {
+        val newFile = File(path)
+        try {
+            val authority = "${applicationID}.fileprovider"
+            FileProvider.getUriForFile(context, authority, newFile)
+        } catch (e: IllegalArgumentException) {
+            //                sendEvent(OPEN_EVENT, currentId, e.getMessage());
+            return
+        }
+    }
+    if (contentUri == null) {
+//            sendEvent(OPEN_EVENT, currentId, "Invalid file");
+        return
+    }
+    val extension: String = MimeTypeMap.getFileExtensionFromUrl(path).toLowerCase()
+    val mimeType = MapTable.getMIMEType(path)
+
+    val shareIntent = Intent()
+
+    shareIntent.action = Intent.ACTION_VIEW
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    shareIntent.setDataAndType(contentUri, mimeType)
+    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+    //        shareIntent.setType("*/*");//此处可发送多种文件
+    val intentActivity: Intent
+
+    intentActivity = Intent.createChooser(shareIntent, "请选择对应的软件打开")
+    val pm: PackageManager = context.packageManager
+
+    if (shareIntent.resolveActivity(pm) != null) {
+        try {
+            context.startActivity(intentActivity)
+            //                sendEvent(OPEN_EVENT, currentId, null);
+        } catch (e: java.lang.Exception) {
+//                sendEvent(OPEN_EVENT, currentId, e.getMessage());
+        }
+    } else {
+        try {
+            if (mimeType == null) {
+                throw java.lang.Exception("暂不支持该文件类型")
+            }
+            val storeIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("market://search?q=$mimeType&c=apps")
+            )
+            throw java.lang.Exception("没有可以打开该文件的APP")
+        } catch (e: java.lang.Exception) {
+//                sendEvent(OPEN_EVENT, currentId, e.getMessage());
+        }
+    }
+
 }
