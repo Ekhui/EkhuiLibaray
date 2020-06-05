@@ -33,7 +33,7 @@ object DateUtil {
 //        val format1 = SimpleDateFormat("MM-dd HH:mm")
         if (date.isNullOrBlank())
             return Date()
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(date)!!
+         return   SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(date)!!
     }
 
     /*

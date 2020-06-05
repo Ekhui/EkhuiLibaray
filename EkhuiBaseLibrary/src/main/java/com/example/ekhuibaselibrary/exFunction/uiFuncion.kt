@@ -19,6 +19,7 @@ import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils.runOnUiThread
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.ekhuibaselibrary.R
 import com.example.ekhuibaselibrary.itemDecoration.RecycleLineDivider
 import com.example.ekhuibaselibrary.utils.AFClickListener
@@ -139,6 +140,15 @@ fun ImageView.loadImage(path: Any) {
 //        .error(R.drawable.image_error)
         .into(this)
 }
+
+fun ImageView.preLoadImage(path: Any) {
+    Glide.with(this.context).load(path)
+//        .override(100, 100)
+//        .error(R.drawable.image_error)
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .preload()
+}
+
 
 fun resize(context: Context, image: Drawable): Drawable? {
     val b = (image as BitmapDrawable).bitmap

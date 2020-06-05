@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -12,9 +13,8 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
+import java.io.*
+import java.util.*
 
 
 /**
@@ -193,6 +193,7 @@ fun openAndChooseFileWithImage(activity: AppCompatActivity, requestCode: Int) {
 fun getFileType(fileName: String?): String? {
     return fileName?.substring(fileName.lastIndexOf(".") + 1)
 }
+
 
 /**
  * Created by Ekhui on 2020/4/29.
@@ -394,4 +395,32 @@ fun getFilePathFromUri(context: Context?, uri: Uri): String? {
         return uri.path
     }
     return null
+}
+
+/**
+ * 保存图片
+ *
+ * @param bm
+ */
+@Throws(IOException::class)
+fun saveFile(bm: Bitmap, context: Context) {
+    val dirFile =
+        File(Environment.getExternalStorageDirectory().path)
+    if (!dirFile.exists()) {
+        dirFile.mkdir()
+    }
+    val fileName = UUID.randomUUID().toString() + ".jpg"
+    val myCaptureFile = File(
+        Environment.getExternalStorageDirectory().path + "/DCIM/Camera/" + fileName
+    )
+    val bos =
+        BufferedOutputStream(FileOutputStream(myCaptureFile))
+    bm.compress(Bitmap.CompressFormat.JPEG, 80, bos)
+    bos.flush()
+    bos.close()
+    //把图片保存后声明这个广播事件通知系统相册有新图片到来
+    val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+    val uri = Uri.fromFile(myCaptureFile)
+    intent.data = uri
+    context.sendBroadcast(intent)
 }

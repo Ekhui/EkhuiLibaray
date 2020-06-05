@@ -70,7 +70,8 @@ class PermissionUtils {
          */
         fun requestFileWriteReadPermission(
             activity: AppCompatActivity,
-            needRequest: Boolean
+            needRequest: Boolean,
+            needClose: Boolean = true
         ): Boolean {
             if (Build.VERSION.SDK_INT >= 23) {
                 val permissions = arrayOf(
@@ -85,7 +86,7 @@ class PermissionUtils {
                                 permissions[0]
                             )
                         ) {
-                            openSetting(activity)
+                            openSetting(activity, needClose)
                             return false
                         }
 //                        勾选不在询问
@@ -94,7 +95,7 @@ class PermissionUtils {
                                 permissions[1]
                             )
                         ) {
-                            openSetting(activity)
+                            openSetting(activity, needClose)
                             return false
                         }
                         if (needRequest)
@@ -110,9 +111,11 @@ class PermissionUtils {
          * Created by Ekhui on 2020/4/23.
          * 作用：前往APP设置页面
          */
-        private fun openSetting(activity: AppCompatActivity) {
+        private fun openSetting(activity: AppCompatActivity, needClose: Boolean = true) {
             CircleDialog.Builder().setNegative("关闭") {
-                activity.finish()
+                if (needClose)
+                    activity.finish()
+
             }.setPositive("设置") {
                 try {
                     val localIntent = Intent()
