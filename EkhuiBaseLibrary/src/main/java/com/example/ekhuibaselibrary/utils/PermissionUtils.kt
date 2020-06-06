@@ -71,7 +71,8 @@ class PermissionUtils {
         fun requestFileWriteReadPermission(
             activity: AppCompatActivity,
             needRequest: Boolean,
-            needClose: Boolean = true
+            needClose: Boolean = true,
+            resultCode: Int = REQUEST_FILE_PERMISSION
         ): Boolean {
             if (Build.VERSION.SDK_INT >= 23) {
                 val permissions = arrayOf(
@@ -99,7 +100,7 @@ class PermissionUtils {
                             return false
                         }
                         if (needRequest)
-                            activity.requestPermissions(permissions, REQUEST_FILE_PERMISSION)
+                            activity.requestPermissions(permissions, resultCode)
                         return false
                     }
                 }
