@@ -35,6 +35,12 @@ object DateUtil {
             return Date()
          return   SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(date)!!
     }
+    fun changeStr2DateYear(date: String?): Date {
+//        val format1 = SimpleDateFormat("MM-dd HH:mm")
+        if (date.isNullOrBlank())
+            return Date()
+        return   SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(date)!!
+    }
 
     /*
     * Created by Ekhui on 2019/11/22.

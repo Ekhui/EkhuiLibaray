@@ -24,6 +24,7 @@ import com.example.ekhuibaselibrary.R
 import com.example.ekhuibaselibrary.itemDecoration.RecycleLineDivider
 import com.example.ekhuibaselibrary.utils.AFClickListener
 import com.scwang.smartrefresh.layout.api.RefreshLayout
+import java.math.BigDecimal
 
 
 /**
@@ -53,8 +54,15 @@ fun String?.filterInt(): String? {
     if (this[this.length - 1].toString() == ".") {
         return this.substring(0, this.length - 1)
     }
-    return this
+
+    val mathResult: BigDecimal? =
+        this.toBigDecimalOrNull()?.setScale(2, BigDecimal.ROUND_HALF_UP)//小数点保留两位
+    val result = mathResult?.stripTrailingZeros()?.toPlainString() //清楚多余的0
+
+    return result ?: this
+
 }
+
 
 fun String.toastAndLog() {
     ToastUtils.showShort(this@toastAndLog)
