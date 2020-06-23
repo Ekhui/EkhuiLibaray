@@ -11,8 +11,9 @@ import androidx.lifecycle.Transformations
  */
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
 
-    val mApplication: Application = application
+//    private val mContext = getApplication<Application>().applicationContext
 
+    val mApplication: Application = application
 
     var mDialog = MutableLiveData<Boolean>()
     var dialog: LiveData<Boolean> = Transformations.map(mDialog) {

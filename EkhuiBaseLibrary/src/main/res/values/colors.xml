@@ -16,8 +16,8 @@
     <color name="grayTxt2">#C0C0C0</color>
     <color name="grayTxt3">#464646</color>
     <color name="transparent">#00000000</color>
-    <color name="deepGreen">#38E3C5</color>
-    <color name="lightGreen">#3cc2aa</color>
+    <color name="deepCyan">#38E3C5</color>
+    <color name="lightCyan">#3cc2aa</color>
     <color name="green">#69C23C</color>
     <color name="lightBlue">#018EE8</color>
     <color name="blueBorder">#CC409EFF</color>

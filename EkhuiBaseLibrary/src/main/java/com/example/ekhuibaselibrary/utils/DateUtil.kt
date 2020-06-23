@@ -1,5 +1,7 @@
 package com.example.ekhuibaselibrary.utils
 
+import android.os.Parcel
+import android.os.Parcelable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -8,6 +10,21 @@ import java.util.*
  */
 object DateUtil {
 
+    fun changeParcelable2Byte(parceable: Parcelable): ByteArray {
+        val parcel = Parcel.obtain()
+        parcel.setDataPosition(0)
+        parceable.writeToParcel(parcel, 0)
+        val bytes = parcel.marshall()
+        parcel.recycle()
+        return bytes
+    }
+
+    fun changeByte2Parcelable(bytes: ByteArray): Parcel {
+        val parcel = Parcel.obtain()
+        parcel.unmarshall(bytes, 0, bytes.size)
+        parcel.setDataPosition(0)
+        return parcel
+    }
 
     //    @TypeConverter
     @JvmStatic
