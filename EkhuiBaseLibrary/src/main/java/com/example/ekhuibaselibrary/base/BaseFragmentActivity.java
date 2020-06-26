@@ -10,10 +10,10 @@ import android.view.WindowManager;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ekhuibaselibrary.custom.CustomDialog;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -24,7 +24,7 @@ import io.reactivex.annotations.Nullable;
 /*
  * Created by Ekhui on 2019/11/20.
  */
-public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends RxFragmentActivity {
+public abstract class BaseFragmentActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends FragmentActivity {
     protected abstract int initLayout();
 
     protected abstract void initLogic();

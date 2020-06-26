@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ekhuibaselibrary.R;
 import com.example.ekhuibaselibrary.custom.CustomDialog;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -24,7 +24,7 @@ import io.reactivex.annotations.Nullable;
 /*
  * Created by Ekhui on 2019/11/20.
  */
-public abstract class BaseRxActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends RxAppCompatActivity {
+public abstract class BaseRxActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends AppCompatActivity {
     protected abstract int initLayout();
 
     protected abstract void initLogic(@Nullable Bundle savedInstanceState);

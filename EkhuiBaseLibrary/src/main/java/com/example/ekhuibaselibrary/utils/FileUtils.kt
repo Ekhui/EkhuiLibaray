@@ -1,8 +1,6 @@
 package com.example.ekhuibaselibrary.utils
 
-import android.content.ContentUris
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
@@ -10,11 +8,13 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.FileUtils
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.example.ekhuibaselibrary.exFunction.toastAndLog
 import java.io.*
 import java.util.*
 
@@ -61,7 +61,6 @@ fun refreshMedia(context: Context?, filePath: String) {
             context, arrayOf(filePath), null
         ) { path, uri ->
             fun onScanCompleted(path: String, uri: Uri) {
-
             }
         }
     } catch (e: Exception) {
@@ -194,6 +193,71 @@ fun openAndChooseFileWithImage(activity: AppCompatActivity, requestCode: Int) {
 
 fun getFileType(fileName: String?): String? {
     return fileName?.substring(fileName.lastIndexOf(".") + 1)
+}
+
+/**
+ * Created by Ekhui on 2020/6/26.
+ * 作用：获取图片保存用的后缀枚举
+ */
+
+fun getFileMIMEType(fileName: String?): String {
+
+    return when (fileName?.substring(fileName.lastIndexOf(".") + 1)) {
+        "jpeg" -> "image/png"
+        "jpg" -> "image/jpg"
+        "png" -> "image/png"
+        else -> "image/jpeg"
+    }
+}
+
+/**
+ * Created by Ekhui on 2020/6/26.
+ * 作用：保存图片
+ */
+
+fun savePhotoIntoToPhone(
+    path: String,
+    context: Context,
+    onSuccess: () -> Unit,
+    onFail: () -> Unit
+) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val contentResolver: ContentResolver = context.contentResolver
+
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, getFileName(path) ?: "")
+            put(MediaStore.MediaColumns.MIME_TYPE, getFileMIMEType(path))
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+        }
+
+        val uri: Uri? = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        if (uri == null)
+            onFail.invoke()
+        else {
+            try {
+                val out: OutputStream = contentResolver.openOutputStream(uri)!!
+                val fis = FileInputStream(File(path))
+                FileUtils.copy(fis, out)
+                fis.close()
+                out.close()
+                onSuccess.invoke()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    } else {
+        refreshMedia(context, path)  //刷新媒体库
+        MediaStore.Images.Media.insertImage(context.contentResolver, path, getFileName(path), null)
+        context.sendBroadcast(
+            Intent(
+                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                Uri.parse("file://$path")
+            )
+        )
+        "图片保存成功".toastAndLog()
+    }
 }
 
 
@@ -427,7 +491,7 @@ fun saveFile(bm: Bitmap, context: Context) {
     context.sendBroadcast(intent)
 }
 
-fun openFile(context: Context, filePath: String,  applicationID: String) {
+fun openFile(context: Context, filePath: String, applicationID: String) {
 
     val path = filePath
 
