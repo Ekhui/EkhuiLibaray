@@ -32,4 +32,18 @@
     <color name="lightRed">#EA495F</color>
     <color name="softGreen">#b1e7d7</color>
     <color name="orange">#FC9738</color>
+
+
+    <color name="line_gray">#dcdcdc</color>
+    <color name="line_gray_light">#f1f1f1</color>
+    <color name="gray_text">#7a7a7a</color>
+    <color name="gray_text_light">#9c9c9c</color>
+    <color name="gray_bg">#ececec</color>
+    <color name="gray_bg_f9">#f9f9f9</color>
+
+    <color name="red_web">#ff8080</color>
+    <color name="pro_bg">#ecf0f1</color>
+    <color name="gr_start">#f25453</color>
+    <color name="gr_mid">#ffdc18</color>
+    <color name="gr_end">#1aac19</color>
 </resources>

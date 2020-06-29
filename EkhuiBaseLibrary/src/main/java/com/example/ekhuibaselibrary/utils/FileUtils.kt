@@ -243,6 +243,7 @@ fun savePhotoIntoToPhone(
                 fis.close()
                 out.close()
                 onSuccess.invoke()
+                deleteSingleFile(path)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -257,9 +258,25 @@ fun savePhotoIntoToPhone(
             )
         )
         "图片保存成功".toastAndLog()
+        onSuccess.invoke()
+        deleteSingleFile(path)
     }
 }
 
+/**
+ * Created by Ekhui on 2020/6/29.
+ * 作用：删除单个文件
+ */
+
+fun deleteSingleFile(name: String): Boolean {
+    val file = File(name)
+    // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+    return if (file.exists() && file.isFile) {
+        file.delete()
+    } else {
+        false
+    }
+}
 
 /**
  * Created by Ekhui on 2020/4/29.
