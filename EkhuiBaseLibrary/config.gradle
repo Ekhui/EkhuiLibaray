@@ -31,7 +31,7 @@ project.ext {
 
     UIList = [
             vheel             : 'com.contrarywind:Android-PickerView:4.1.9',
-            circleDialog      : 'com.mylhyl:circleDialog:5.3.1',
+            circleDialog      : 'com.mylhyl:circleDialog:5.3.3',
             MPAndroidChart    : 'com.github.PhilJay:MPAndroidChart:v3.1.0',
             hellocharts       : 'com.github.lecho:hellocharts-library:1.5.8@aar',
             banner            : 'com.youth.banner:banner:1.4.10',

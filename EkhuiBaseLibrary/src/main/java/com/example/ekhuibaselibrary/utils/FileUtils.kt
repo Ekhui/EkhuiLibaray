@@ -52,21 +52,44 @@ fun getInstallAppIntent(context: Context, filePath: String, applicationID: Strin
 
 /**
  * 通知android媒体库更新文件夹
- *
+ * txt文件不会刷新出来
  * @param filePath FilePath 文件绝对路径，、/sda/aaa/jjj.jpg
  */
+//fun refreshMedia(context: Context?, filePath: String) {
+//
+//    try {
+//        MediaScannerConnection.scanFile(context, arrayOf(filePath), null) { path, uri ->
+//            path
+//            uri
+//        }
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//    }
+//}
+
 fun refreshMedia(context: Context?, filePath: String) {
-    try {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) //版本号的判断  4.4为分水岭，发送广播更新媒体库
+    {
         MediaScannerConnection.scanFile(
-            context, arrayOf(filePath), null
+            context,
+            arrayOf(filePath),
+            null
         ) { path, uri ->
-            fun onScanCompleted(path: String, uri: Uri) {
-            }
+//            更新相册
+//            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+//            mediaScanIntent.data = uri
+//            context?.sendBroadcast(mediaScanIntent)
         }
-    } catch (e: Exception) {
-        e.printStackTrace()
+    } else {
+        context?.sendBroadcast(
+            Intent(
+                Intent.ACTION_MEDIA_MOUNTED,
+                Uri.fromFile(File(filePath))
+            )
+        )
     }
 }
+
 
 /**
  * 将文件转换成uri(支持7.0)
@@ -192,7 +215,7 @@ fun openAndChooseFileWithImage(activity: AppCompatActivity, requestCode: Int) {
  */
 
 fun getFileType(fileName: String?): String? {
-    return fileName?.substring(fileName.lastIndexOf(".") + 1)
+    return fileName?.substring(fileName.lastIndexOf(".") + 1)?.trim()
 }
 
 /**
@@ -203,9 +226,9 @@ fun getFileType(fileName: String?): String? {
 fun getFileMIMEType(fileName: String?): String {
 
     return when (fileName?.substring(fileName.lastIndexOf(".") + 1)) {
-        "jpeg" -> "image/png"
-        "jpg" -> "image/jpg"
-        "png" -> "image/png"
+        "jpeg", "JPEG" -> "image/png"
+        "jpg", "JPG" -> "image/jpg"
+        "png", "PNG" -> "image/png"
         else -> "image/jpeg"
     }
 }
@@ -285,7 +308,7 @@ fun deleteSingleFile(name: String): Boolean {
 
 fun isImage(fileName: String?): Boolean {
     val name = fileName?.substring(fileName.lastIndexOf(".") + 1)
-    return name == "jpg" || name == "jpeg" || name == "png"
+    return name == "jpg" || name == "jpeg" || name == "png" || name == "JPG" || name == "JPEG" || name == "PNG"
 }
 
 
@@ -298,7 +321,7 @@ fun getFileName(fileName: String?): String? {
     val indexStart = fileName?.lastIndexOf("/") ?: 0
 //    val indexEnd = fileName?.lastIndexOf(".")
 //    return fileName?.substring(indexStart!! + 1, indexEnd!!)
-    return fileName?.substring(indexStart + 1)
+    return fileName?.substring(indexStart + 1)?.trim()
 
 }
 

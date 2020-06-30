@@ -54,9 +54,10 @@ public abstract class BaseRxActivity<VM extends BaseViewModel, VDB extends ViewD
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (customDialog != null)
             customDialog = null;
+        super.onDestroy();
+
     }
 
     @Override
@@ -82,6 +83,7 @@ public abstract class BaseRxActivity<VM extends BaseViewModel, VDB extends ViewD
                     customDialog.dismiss();
             }
         });
+
 
         initLogic(savedInstanceState);
 

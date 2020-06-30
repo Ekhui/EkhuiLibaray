@@ -26,6 +26,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         it
     }
 
+
     override fun onCleared() {
         super.onCleared()
     }
