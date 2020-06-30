@@ -31,14 +31,17 @@ project.ext {
 
     UIList = [
             vheel             : 'com.contrarywind:Android-PickerView:4.1.9',
-            circleDialog      : 'com.mylhyl:circleDialog:5.0.6',
+            circleDialog      : 'com.mylhyl:circleDialog:5.3.3',
             MPAndroidChart    : 'com.github.PhilJay:MPAndroidChart:v3.1.0',
             hellocharts       : 'com.github.lecho:hellocharts-library:1.5.8@aar',
             banner            : 'com.youth.banner:banner:1.4.10',
             viewpager2        : "androidx.viewpager2:viewpager2:1.0.0",
+            constraintlayout  : 'androidx.constraintlayout:constraintlayout:1.1.3',
             actionSheet       : 'com.github.WindSekirun:ActionSheet:1.0.0',
-            SmartRefreshLayout: 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0',
-            SmartRefreshHeader: 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0']
+            smartRefreshLayout: 'com.scwang.smart:refresh-layout-kernel:2.0.1',
+            smartRefreshFooter: 'com.scwang.smart:refresh-footer-ball:2.0.1',
+            smartRefreshHeader: 'com.scwang.smart:refresh-header-material:2.0.1']
+
 
     RoomList = [
             roomRxjava2: 'android.arch.persistence.room:rxjava2:2.1.4',
