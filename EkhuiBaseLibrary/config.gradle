@@ -38,8 +38,9 @@ project.ext {
             viewpager2        : "androidx.viewpager2:viewpager2:1.0.0",
             constraintlayout  : 'androidx.constraintlayout:constraintlayout:1.1.3',
             actionSheet       : 'com.github.WindSekirun:ActionSheet:1.0.0',
-            SmartRefreshLayout: 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0',
-            SmartRefreshHeader: 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0']
+            smartRefreshLayout: 'com.scwang.smart:refresh-layout-kernel:2.0.1',
+            smartRefreshFooter: 'com.scwang.smart:refresh-footer-ball:2.0.1',
+            smartRefreshHeader: 'com.scwang.smart:refresh-header-material:2.0.1']
 
     RoomList = [
             roomRxjava2: 'android.arch.persistence.room:rxjava2:2.1.4',

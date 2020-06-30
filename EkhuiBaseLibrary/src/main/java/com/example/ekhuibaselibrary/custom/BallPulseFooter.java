@@ -15,11 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.internal.InternalAbstract;
-import com.scwang.smartrefresh.layout.util.SmartUtil;
+import com.scwang.smart.refresh.footer.ball.R;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
+import com.scwang.smart.refresh.layout.simple.SimpleComponent;
+import com.scwang.smart.refresh.layout.util.SmartUtil;
 
 
 /**
@@ -27,7 +28,7 @@ import com.scwang.smartrefresh.layout.util.SmartUtil;
  * Created by scwang on 2017/5/30.
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
+public class BallPulseFooter extends SimpleComponent implements RefreshFooter {
 
     //<editor-fold desc="属性变量">
 
@@ -40,6 +41,7 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
     protected int mAnimatingColor = 0xffe75946;
 
     protected float mCircleSpacing;
+
 
     protected long mStartTime = 0;
     protected boolean mIsStarted = false;
@@ -57,7 +59,7 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
         final View thisView = this;
         thisView.setMinimumHeight(SmartUtil.dp2px(60));
 
-        TypedArray ta = context.obtainStyledAttributes(attrs, com.scwang.smartrefresh.layout.R.styleable.BallPulseFooter);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BallPulseFooter);
 
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
@@ -65,13 +67,13 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
         mPaint.setAntiAlias(true);
 
         mSpinnerStyle = SpinnerStyle.Translate;
-        mSpinnerStyle = SpinnerStyle.values[ta.getInt(com.scwang.smartrefresh.layout.R.styleable.BallPulseFooter_srlClassicsSpinnerStyle, mSpinnerStyle.ordinal)];
+        mSpinnerStyle = SpinnerStyle.values[ta.getInt(R.styleable.BallPulseFooter_srlClassicsSpinnerStyle, mSpinnerStyle.ordinal)];
 
-        if (ta.hasValue(com.scwang.smartrefresh.layout.R.styleable.BallPulseFooter_srlNormalColor)) {
-            setNormalColor(ta.getColor(com.scwang.smartrefresh.layout.R.styleable.BallPulseFooter_srlNormalColor, 0));
+        if (ta.hasValue(R.styleable.BallPulseFooter_srlNormalColor)) {
+            setNormalColor(ta.getColor(R.styleable.BallPulseFooter_srlNormalColor, 0));
         }
-        if (ta.hasValue(com.scwang.smartrefresh.layout.R.styleable.BallPulseFooter_srlAnimatingColor)) {
-            setAnimatingColor(ta.getColor(com.scwang.smartrefresh.layout.R.styleable.BallPulseFooter_srlAnimatingColor, 0));
+        if (ta.hasValue(R.styleable.BallPulseFooter_srlAnimatingColor)) {
+            setAnimatingColor(ta.getColor(R.styleable.BallPulseFooter_srlAnimatingColor, 0));
         }
 
         ta.recycle();
@@ -79,7 +81,6 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
         mCircleSpacing = SmartUtil.dp2px(4);
 
     }
-
     //</editor-fold>
 
     @Override
@@ -96,7 +97,7 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
         for (int i = 0; i < 3; i++) {
 
             long time = now - mStartTime - 120 * (i + 1);
-            float percent = time > 0 ? ((time%750)/750f) : 0;
+            float percent = time > 0 ? ((time % 750) / 750f) : 0;
             percent = mInterpolator.getInterpolation(percent);
 
             canvas.save();
@@ -125,10 +126,10 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
 
 
     //<editor-fold desc="刷新方法 - RefreshFooter">
+
     @Override
     public void onStartAnimator(@NonNull RefreshLayout layout, int height, int maxDragHeight) {
         if (mIsStarted) return;
-
         final View thisView = this;
         thisView.invalidate();
         mIsStarted = true;
@@ -144,7 +145,15 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
         return 0;
     }
 
-    @Override@Deprecated
+    @Override
+    public boolean setNoMoreData(boolean noMoreData) {
+        View thisView = this;
+        thisView.setVisibility(noMoreData ? View.INVISIBLE : View.VISIBLE);
+        return super.setNoMoreData(noMoreData);
+    }
+
+    @Override
+    @Deprecated
     public void setPrimaryColors(@ColorInt int... colors) {
         if (!mManualAnimationColor && colors.length > 1) {
             setAnimatingColor(colors[0]);
@@ -154,15 +163,15 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
             if (colors.length > 1) {
                 setNormalColor(colors[1]);
             } else if (colors.length > 0) {
-                setNormalColor(ColorUtils.compositeColors(0x99ffffff,colors[0]));
+                setNormalColor(ColorUtils.compositeColors(0x99ffffff, colors[0]));
             }
             mManualNormalColor = false;
         }
     }
-
     //</editor-fold>
 
     //<editor-fold desc="开放接口 - API">
+
     public BallPulseFooter setSpinnerStyle(SpinnerStyle mSpinnerStyle) {
         this.mSpinnerStyle = mSpinnerStyle;
         return this;
@@ -186,15 +195,4 @@ public class BallPulseFooter extends InternalAbstract implements RefreshFooter {
         return this;
     }
     //</editor-fold>
-
-
-    @Override
-    public boolean setNoMoreData(boolean noMoreData) {
-        View thisView = this;
-        thisView.setVisibility(noMoreData? View.INVISIBLE : View.VISIBLE);
-        return super.setNoMoreData(noMoreData);
-    }
-
-
-
 }

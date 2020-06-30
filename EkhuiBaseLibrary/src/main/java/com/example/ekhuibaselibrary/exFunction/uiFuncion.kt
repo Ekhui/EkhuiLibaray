@@ -23,7 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.ekhuibaselibrary.R
 import com.example.ekhuibaselibrary.itemDecoration.RecycleLineDivider
 import com.example.ekhuibaselibrary.utils.AFClickListener
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import java.math.BigDecimal
 
 
