@@ -184,7 +184,11 @@ fun openAndChooseFile(activity: AppCompatActivity, requestCode: Int) {
  * 作用：打开文件选择器 选择文件(带图片)
  */
 
-fun openAndChooseFileWithImage(activity: AppCompatActivity, requestCode: Int) {
+fun openAndChooseFileWithImage(
+    activity: AppCompatActivity,
+    requestCode: Int,
+    isMultiple: Boolean = false
+) {
     val DOC = "application/msword"
     val DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     val XLS = "application/vnd.ms-excel application/x-excel"
@@ -204,6 +208,7 @@ fun openAndChooseFileWithImage(activity: AppCompatActivity, requestCode: Int) {
         arrayOf(DOC, DOCX, XLS, XLSX, PPT, PPTX, PDF, TXT, ZIP, JPEG, PNG, JPG)
     intent.type = "application/*"
     intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, isMultiple)
     intent.addCategory(Intent.CATEGORY_OPENABLE)
     activity.startActivityForResult(intent, requestCode)
 }
@@ -439,8 +444,9 @@ fun isMediaDocument(uri: Uri): Boolean {
  * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
  */
 fun getFilePathFromUri(context: Context?, uri: Uri): String? {
-    val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
+
+    val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
     // DocumentProvider
     if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
         // ExternalStorageProvider

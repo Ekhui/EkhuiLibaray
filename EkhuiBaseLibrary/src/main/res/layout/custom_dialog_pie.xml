@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             app:srp_max="100"
             app:srp_progressColor="@color/white"
-            app:srp_roundColor="@color/transparent"
+            app:srp_roundColor="@color/white"
             app:srp_startAngle="270"
             app:srp_style="FILL" />
 

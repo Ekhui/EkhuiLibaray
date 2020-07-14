@@ -10,11 +10,15 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
+/*
+ * Created by Ekhui on 2019/10/8.
+ */
 
 public class RSAUtil {
 
     /**
-     *  使用私钥解密
+     * 使用私钥解密
+     *
      * @param content
      * @param private_key
      * @param input_charset
@@ -53,8 +57,7 @@ public class RSAUtil {
     /**
      * 获得私钥
      *
-     * @param key
-     *            私钥
+     * @param key 私钥
      * @throws Exception
      */
     public static PrivateKey getPrivateKey(String key) throws Exception {

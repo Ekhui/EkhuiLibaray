@@ -70,6 +70,11 @@ object DateUtil {
         return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
     }
 
+    fun changeDate2Str2(date: Date): String? {
+        return SimpleDateFormat("yyyy-MM-dd HH:mm").format(date)
+    }
+
+
     fun changeDate2DayStr(date: Date): String? {
         return SimpleDateFormat("HH:mm:ss").format(date)
     }

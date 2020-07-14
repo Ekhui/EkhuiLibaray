@@ -28,6 +28,7 @@ public abstract class BaseFragment<VM extends BaseViewModel, VDB extends ViewDat
 
     protected abstract void initLogic();
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

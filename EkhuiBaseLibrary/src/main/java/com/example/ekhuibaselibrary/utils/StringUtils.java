@@ -18,4 +18,8 @@ public class StringUtils {
         return dest;
     }
 
+    public static String replaceAll(String text, String regex, String replacement) {
+        return text.replaceAll(regex, replacement);
+    }
+
 }

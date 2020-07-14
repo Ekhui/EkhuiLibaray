@@ -42,14 +42,13 @@ public class PieProgressView extends View {
 
     public PieProgressView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
         paint = new Paint();
 
         // 读取自定义属性的值
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.PieProgressView);
 
         // 获取自定义属性和默认值
-        roundColor = mTypedArray.getColor(R.styleable.PieProgressView_srp_roundColor, Color.RED);
+        roundColor = mTypedArray.getColor(R.styleable.PieProgressView_srp_roundColor, Color.WHITE);
         roundWidth = mTypedArray.getDimension(R.styleable.PieProgressView_srp_roundWidth, 5);
         progressColor = mTypedArray.getColor(R.styleable.PieProgressView_srp_progressColor, Color.GREEN);
         progressWidth = mTypedArray.getDimension(R.styleable.PieProgressView_srp_progressWidth, roundWidth);
@@ -71,17 +70,21 @@ public class PieProgressView extends View {
         paint.setStrokeWidth(roundWidth); // 设置圆环的宽度
         paint.setColor(roundColor); // 设置圆环的颜色
         paint.setAntiAlias(true); // 消除锯齿
-        // 设置画笔样式
-        switch (style) {
-            case STROKE:
-                paint.setStyle(Paint.Style.STROKE);
-                break;
-            case FILL:
-                paint.setStyle(Paint.Style.FILL_AND_STROKE);
-                break;
-        }
+
+
+//        // 设置画笔样式
+//        switch (style) {
+//            case STROKE:
+//                paint.setStyle(Paint.Style.STROKE);
+//                break;
+//            case FILL:
+//                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+//                break;
+//        }
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawCircle(centerX, centerX, radius, paint); // 画出圆环
 
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         // step2 画圆弧-画圆环的进度
         paint.setStrokeWidth(progressWidth); // 设置画笔的宽度使用进度条的宽度
         paint.setColor(progressColor); // 设置进度的颜色
