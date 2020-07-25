@@ -48,11 +48,11 @@ project.ext {
 
     ThridToolsList = [
             material : 'com.google.android.material:material:1.2.0-alpha02',
-            utilcodex: 'com.blankj:utilcodex:1.26.0'
+            utilcodex: 'com.blankj:utilcodex:1.29.0'
     ]
 
     GlideList = [
-            glide: 'com.github.bumptech.glide:glide:4.9.0']
+            glide: 'com.github.bumptech.glide:glide:4.11.0']
 
     EventBusList = [
             eventbus: 'org.greenrobot:eventbus:3.1.1']

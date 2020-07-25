@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.StringUtils
+import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.blankj.utilcode.util.ToastUtils
-import com.blankj.utilcode.util.Utils.runOnUiThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.ekhuibaselibrary.R
@@ -39,6 +39,15 @@ fun String.toast() {
 
 fun String.log() {
     Log.i("zoo", this)
+}
+
+
+fun Boolean?.isNotNullAndTrue(): Boolean {
+    return this != null && this
+}
+
+fun Boolean?.isNotNullAndFalse(): Boolean {
+    return this == null || !this
 }
 
 /**

@@ -44,7 +44,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation project.ext.testLibs
     kapt "android.arch.persistence.room:compiler:2.1.4"
-    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation project.ext.supportLibs
     implementation project.ext.lifecycleLibs

@@ -15,6 +15,19 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     val mApplication: Application = application
 
+    //请求成功
+    val fetchSuccess = MutableLiveData<Boolean>()
+    var mFetchSuccess: LiveData<Boolean> = Transformations.map(fetchSuccess) {
+        it
+    }
+
+    //    请求失败
+    val fetchFail = MutableLiveData<Boolean>()
+    var mFetchFail: LiveData<Boolean> = Transformations.map(fetchFail) {
+        it
+    }
+
+
     var mDialog = MutableLiveData<Boolean>()
     var dialog: LiveData<Boolean> = Transformations.map(mDialog) {
         it
