@@ -31,6 +31,9 @@ import java.math.BigDecimal
  * Created by Ekhui on 2020/2/28.
  */
 
+fun Any?.anyToInt(): Int? {
+    return this.toString().toDoubleOrNull()?.toInt()
+}
 
 fun String.toast() {
     ToastUtils.showShort(this)
@@ -96,6 +99,7 @@ fun RefreshLayout.onComplete(isNoMore: Boolean) {
 
 }
 
+
 /**
  * Created by Ekhui on 2020/3/24.
  * 作用：禁止输入框换行
@@ -155,6 +159,7 @@ fun ImageView.loadImage(path: Any) {
     Glide.with(this.context).load(path)
 //        .override(100, 100)
 //        .error(R.drawable.image_error)
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
         .into(this)
 }
 

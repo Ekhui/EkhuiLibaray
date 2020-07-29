@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.example.ekhuibaselibrary.exFunction.toastAndLog
 import java.io.*
+import java.net.FileNameMap
+import java.net.URLConnection
 import java.util.*
 
 
