@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_round"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/qb_px_20"
+        android:paddingTop="@dimen/qb_px_10"
+        android:paddingRight="@dimen/qb_px_20"
+        android:paddingBottom="@dimen/qb_px_10">
+
+        <ImageView
+            android:layout_width="@dimen/qb_px_50"
+            android:layout_height="@dimen/qb_px_50"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/anim_loading"
+            android:src="@drawable/tick" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/qb_px_5"
+            android:text="保存成功"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>
