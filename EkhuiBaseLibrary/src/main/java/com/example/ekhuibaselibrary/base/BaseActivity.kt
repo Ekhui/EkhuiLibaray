@@ -18,7 +18,7 @@ import java.lang.reflect.ParameterizedType
 /*
  * Created by Ekhui on 2019/11/20.
  */
-abstract class BaseRxActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppCompatActivity() {
+abstract class BaseActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppCompatActivity() {
     protected abstract fun initLayout(): Int
     protected abstract fun initLogic(savedInstanceState: Bundle?)
     protected lateinit var mViewModel: VM
@@ -67,8 +67,12 @@ abstract class BaseRxActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppCo
                 }
             }
         )
+        initData()
         initLogic(savedInstanceState)
     }
+
+    protected open fun initData() {}
+
 
     protected open fun onSelectDialogChange() {}
 

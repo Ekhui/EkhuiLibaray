@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
@@ -18,7 +19,6 @@ import com.example.ekhuibaselibrary.custom.CustomDialog;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import io.reactivex.annotations.Nullable;
 
 
 /*
