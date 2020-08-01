@@ -149,7 +149,7 @@ public class BallPulseFooter extends SimpleComponent implements RefreshFooter {
     public boolean setNoMoreData(boolean noMoreData) {
         View thisView = this;
         thisView.setVisibility(noMoreData ? View.INVISIBLE : View.VISIBLE);
-        return super.setNoMoreData(noMoreData);
+        return true;
     }
 
     @Override

@@ -9,8 +9,8 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
+import java.math.BigDecimal
 import java.util.*
-import kotlin.math.roundToInt
 
 /**
  * Created by Ekhui on 2019/11/21.
@@ -63,8 +63,8 @@ object BeanUtils {
         )
     }
 
-    fun toFixFloat(number: Float): Float {
-        return ((number * 1000000).roundToInt()) / 1000000.toFloat()
+    fun toFixFloat(number: Double, count: Int = 2): Double {
+        return BigDecimal(number).setScale(count, BigDecimal.ROUND_HALF_UP).toDouble()
     }
 
 

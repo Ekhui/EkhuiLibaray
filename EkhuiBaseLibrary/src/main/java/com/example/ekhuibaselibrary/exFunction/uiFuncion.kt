@@ -6,12 +6,14 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.KeyboardUtils
@@ -37,6 +39,14 @@ fun Any?.anyToInt(): Int? {
 
 fun String.toast() {
     ToastUtils.showShort(this)
+}
+
+fun Any?.toSafeString(): String? {
+    if (this == null)
+        return this
+    if (this.toString().isBlank())
+        return null
+    return this.toString()
 }
 
 
@@ -81,6 +91,8 @@ fun String.toastAndLog() {
     Log.i("zoo", this)
 }
 
+// 是否为主线程
+val isMainThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 /**
  * Created by Ekhui on 2020/3/24.
@@ -88,15 +100,26 @@ fun String.toastAndLog() {
  */
 
 fun RefreshLayout.onComplete(isNoMore: Boolean) {
-    Thread(Runnable {
-        runOnUiThread {
-            if (state.isHeader)
-                finishRefresh()
-            else if (state.isFooter)
-                finishLoadMore(0, true, isNoMore)
-        }
-    }).start()
+    when {
+        !isMainThread -> Thread(Runnable {
+            runOnUiThread {
+                if (state.isHeader) {
+                    finishRefresh(0, true, isNoMore)
+                } else if (state.isFooter)
+                    finishLoadMore(0, true, isNoMore)
+            }
+        }).start()
+        state.isHeader -> finishRefresh(0, true, isNoMore)
+        state.isFooter -> finishLoadMore(0, true, isNoMore)
+    }
 
+}
+
+
+// 快速设置value，自动做线程判断
+fun <T> MutableLiveData<T>.safeSaveValue(data: T?) {
+    if (isMainThread) this.value = data
+    else this.postValue(data)
 }
 
 

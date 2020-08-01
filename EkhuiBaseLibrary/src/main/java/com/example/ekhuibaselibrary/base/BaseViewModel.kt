@@ -28,6 +28,12 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     }
 
 
+    //    请求失败
+    val mPopEvent = MutableLiveData<Boolean>()
+    var popEvent: LiveData<Boolean> = Transformations.map(mPopEvent) {
+        it
+    }
+
     var mDialog = MutableLiveData<Boolean>()
     var dialog: LiveData<Boolean> = Transformations.map(mDialog) {
         it

@@ -67,6 +67,11 @@ abstract class BaseActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppComp
                 }
             }
         )
+//        关闭activity
+        mViewModel.popEvent.observe(this, Observer {
+            finish()
+        })
+
         initData()
         initLogic(savedInstanceState)
     }

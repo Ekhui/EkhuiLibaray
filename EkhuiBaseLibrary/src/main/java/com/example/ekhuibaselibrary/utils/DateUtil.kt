@@ -50,13 +50,14 @@ object DateUtil {
 //        val format1 = SimpleDateFormat("MM-dd HH:mm")
         if (date.isNullOrBlank())
             return Date()
-         return   SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(date)!!
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(date)!!
     }
+
     fun changeStr2DateYear(date: String?): Date {
 //        val format1 = SimpleDateFormat("MM-dd HH:mm")
         if (date.isNullOrBlank())
             return Date()
-        return   SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(date)!!
+        return SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(date)!!
     }
 
     /*
@@ -96,6 +97,18 @@ object DateUtil {
         val calendar = Calendar.getInstance()
         calendar.time = Date()
         calendar.add(Calendar.MONTH, -delay)
+        return calendar.time
+    }
+
+    /*
+    * Created by Ekhui on 2019/11/22.
+    * 作用：当前日期往前分
+    * 参数：delay- int 操作的年分
+    */
+    fun minYear(delay: Int): Date {
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        calendar.add(Calendar.YEAR, -1)
         return calendar.time
     }
 
@@ -182,5 +195,36 @@ object DateUtil {
             else -> 0
         }
 
+    }
+
+
+    fun stringToAllDate(time: String?): Date {
+        if (time.isNullOrBlank())
+            return Date()
+        return try {
+            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA).parse(time)!!
+        } catch (e: Exception) {
+            Date()
+        }
+    }
+
+    fun stringToDate(time: String?): Date {
+        if (time.isNullOrBlank())
+            return Date()
+        return try {
+            SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(time)!!
+        } catch (e: Exception) {
+            Date()
+        }
+    }
+
+    fun stringToTime(time: String?): Date {
+        if (time.isNullOrBlank())
+            return Date()
+        return try {
+            SimpleDateFormat("HH:mm", Locale.CHINA).parse(time)!!
+        } catch (e: Exception) {
+            Date()
+        }
     }
 }

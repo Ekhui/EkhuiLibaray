@@ -36,7 +36,7 @@ project.ext {
             hellocharts       : 'com.github.lecho:hellocharts-library:1.5.8@aar',
             banner            : 'com.youth.banner:banner:1.4.10',
             viewpager2        : "androidx.viewpager2:viewpager2:1.0.0",
-            constraintlayout   : 'androidx.constraintlayout:constraintlayout:2.0.0-beta8',
+            constraintlayout  : 'androidx.constraintlayout:constraintlayout:2.0.0-beta8',
             actionSheet       : 'com.github.WindSekirun:ActionSheet:1.0.0',
             smartRefreshLayout: 'com.scwang.smart:refresh-layout-kernel:2.0.1',
             smartRefreshFooter: 'com.scwang.smart:refresh-footer-ball:2.0.1',
@@ -55,23 +55,23 @@ project.ext {
             glide: 'com.github.bumptech.glide:glide:4.11.0']
 
     EventBusList = [
-            eventbus: 'org.greenrobot:eventbus:3.1.1']
+            eventbus: 'org.greenrobot:eventbus:3.2.0']
 
     StethoList = [
             stetho       : 'com.facebook.stetho:stetho:1.5.1',
             stethoOkhttp3: 'com.facebook.stetho:stetho-okhttp3:1.5.1']
 
     NetworkList = [
-            interceptor     : 'com.squareup.okhttp3:logging-interceptor:3.4.1',
-            okhttp3         : 'com.squareup.okhttp3:okhttp:3.14.9',
+            interceptor     : 'com.squareup.okhttp3:logging-interceptor:4.8.0',
+            okhttp3         : 'com.squareup.okhttp3:okhttp:4.8.0',
             retrofit2       : 'com.squareup.retrofit2:retrofit:2.9.0',
             retrofit2Gson   : 'com.squareup.retrofit2:converter-gson:2.9.0',
             retrofit2Adapter: 'com.squareup.retrofit2:adapter-rxjava3:2.9.0',
             rxjava3         : 'io.reactivex.rxjava3:rxjava:3.0.2',
             rxandroid       : 'io.reactivex.rxjava3:rxandroid:3.0.0',
-            rxlife2         : 'com.ljx.rxlife3:rxlife-rxjava:3.0.0',
+            rxlife3         : 'com.ljx.rxlife3:rxlife-rxjava:3.0.0',
             rxlifeCoroutine : 'com.ljx.rxlife:rxlife-coroutine:2.0.0',
-            rxhttp          : 'com.ljx.rxhttp:rxhttp:2.2.0']
+            rxhttp          : 'com.ljx.rxhttp:rxhttp:2.2.8']
 
     TestList = [
             testJunit   : 'androidx.test.ext:junit:1.1.1',
