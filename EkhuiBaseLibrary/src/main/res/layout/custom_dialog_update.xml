@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="@dimen/qb_px_230"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_round_white"
+        android:elevation="@dimen/qb_px_10"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/qb_px_15">
+
+
+        <TextView
+            android:id="@+id/currVersionTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText" />
+
+
+        <TextView
+            android:id="@+id/toVersionTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/qb_px_15"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText" />
+
+        <cn.bingoogolapple.progressbar.BGAProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/qb_px_15"
+            android:max="100"
+            android:progress="0"
+            app:bga_pb_isCapRounded="false"
+            app:bga_pb_mode="horizontal"
+            app:bga_pb_reachedColor="#FFC73B"
+            app:bga_pb_reachedHeight="4dp"
+            app:bga_pb_textColor="#FFC73B"
+            app:bga_pb_textMargin="8dp"
+            app:bga_pb_textSize="14sp"
+            app:bga_pb_unReachedColor="#ECF0F1"
+            app:bga_pb_unReachedHeight="2dp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
