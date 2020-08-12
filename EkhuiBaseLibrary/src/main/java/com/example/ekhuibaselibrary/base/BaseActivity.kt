@@ -31,7 +31,7 @@ abstract class BaseActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppComp
             window.apply {
                 clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                 decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                 statusBarColor = Color.TRANSPARENT
             }
@@ -53,19 +53,19 @@ abstract class BaseActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppComp
         createViewModel()
         Log.i("当前Activity--> ", javaClass.name)
         mViewModel.selectDialog.observe(
-            this,
-            Observer { a: Boolean? -> onSelectDialogChange() }
+                this,
+                Observer { a: Boolean? -> onSelectDialogChange() }
         )
         mViewModel.dialog.observe(
-            this,
-            Observer { aBoolean: Boolean ->
-                if (aBoolean) {
-                    if (customDialog == null) customDialog = CustomDialog(this, "")
-                    customDialog!!.show()
-                } else {
-                    if (customDialog != null) customDialog!!.dismiss()
+                this,
+                Observer { aBoolean: Boolean ->
+                    if (aBoolean) {
+                        if (customDialog == null) customDialog = CustomDialog(this, "")
+                        customDialog!!.show()
+                    } else {
+                        if (customDialog != null) customDialog!!.dismiss()
+                    }
                 }
-            }
         )
 //        关闭activity
         mViewModel.popEvent.observe(this, Observer {
@@ -83,7 +83,7 @@ abstract class BaseActivity<VM : BaseViewModel, VDB : ViewDataBinding> : AppComp
 
     private fun createViewModel() {
         val modelClass: Class<BaseViewModel> =
-            (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<BaseViewModel>
+                (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<BaseViewModel>
         mViewModel = ViewModelProviders.of(this).get<BaseViewModel>(modelClass) as VM
     }
 

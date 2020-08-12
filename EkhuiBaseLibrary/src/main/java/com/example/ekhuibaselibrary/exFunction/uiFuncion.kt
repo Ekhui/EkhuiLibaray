@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Looper
+import android.text.InputFilter
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.StringUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
@@ -25,6 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.ekhuibaselibrary.R
 import com.example.ekhuibaselibrary.itemDecoration.RecycleLineDivider
 import com.example.ekhuibaselibrary.utils.AFClickListener
+import com.example.ekhuibaselibrary.utils.DoubleValueFilter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import java.math.BigDecimal
 
@@ -60,7 +62,28 @@ fun Boolean?.isNotNullAndTrue(): Boolean {
 }
 
 fun Boolean?.isNotNullAndFalse(): Boolean {
-    return this == null || !this
+    return if (this == null)
+        false
+    else
+        !this
+}
+
+fun Boolean?.isNullOrTrue(): Boolean {
+    return this == null || this
+}
+
+fun Boolean?.isNullOrFalse(): Boolean {
+    return if (this == null)
+        true
+    else
+        !this
+}
+
+fun Double?.toFix(scale: Int? = 2): Double? {
+    if (this == null)
+        return null
+    val b = BigDecimal(this)
+    return b.setScale(scale!!, BigDecimal.ROUND_HALF_UP).toDouble()
 }
 
 /**
@@ -80,9 +103,7 @@ fun String?.filterInt(): String? {
     val mathResult: BigDecimal? =
         this.toBigDecimalOrNull()?.setScale(2, BigDecimal.ROUND_HALF_UP)//小数点保留两位
     val result = mathResult?.stripTrailingZeros()?.toPlainString() //清楚多余的0
-
     return result ?: this
-
 }
 
 
@@ -91,8 +112,6 @@ fun String.toastAndLog() {
     Log.i("zoo", this)
 }
 
-// 是否为主线程
-val isMainThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 /**
  * Created by Ekhui on 2020/3/24.
@@ -101,7 +120,7 @@ val isMainThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 fun RefreshLayout.onComplete(isNoMore: Boolean) {
     when {
-        !isMainThread -> Thread(Runnable {
+        !ThreadUtils.isMainThread() -> Thread(Runnable {
             runOnUiThread {
                 if (state.isHeader) {
                     finishRefresh(0, true, isNoMore)
@@ -118,7 +137,7 @@ fun RefreshLayout.onComplete(isNoMore: Boolean) {
 
 // 快速设置value，自动做线程判断
 fun <T> MutableLiveData<T>.safeSaveValue(data: T?) {
-    if (isMainThread) this.value = data
+    if (ThreadUtils.isMainThread()) this.value = data
     else this.postValue(data)
 }
 
@@ -127,8 +146,11 @@ fun <T> MutableLiveData<T>.safeSaveValue(data: T?) {
  * Created by Ekhui on 2020/3/24.
  * 作用：禁止输入框换行
  */
-fun EditText.banEnter() {
+fun EditText.banEnter(toFix: Int = -1) {
     this.setOnEditorActionListener { _, _, keyEvent ->
+
+        if (toFix != -1)
+            this.filters = arrayOf<InputFilter>(DoubleValueFilter().apply { setDigits(toFix) })
 
         KeyboardUtils.hideSoftInput(this)
         if (keyEvent == null)

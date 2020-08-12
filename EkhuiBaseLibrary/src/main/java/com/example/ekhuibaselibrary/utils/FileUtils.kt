@@ -1,5 +1,6 @@
 package com.example.ekhuibaselibrary.utils
 
+import android.app.Application
 import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -14,10 +15,9 @@ import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.example.ekhuibaselibrary.exFunction.toFix
 import com.example.ekhuibaselibrary.exFunction.toastAndLog
 import java.io.*
-import java.net.FileNameMap
-import java.net.URLConnection
 import java.util.*
 
 
@@ -185,7 +185,6 @@ fun openAndChooseFile(activity: AppCompatActivity, requestCode: Int) {
  * Created by Ekhui on 2020/4/29.
  * 作用：打开文件选择器 选择文件(带图片)
  */
-
 fun openAndChooseFileWithImage(
     activity: AppCompatActivity,
     requestCode: Int,
@@ -222,6 +221,7 @@ fun openAndChooseFileWithImage(
  */
 
 fun getFileType(fileName: String?): String? {
+
     return fileName?.substring(fileName.lastIndexOf(".") + 1)?.trim()
 }
 
@@ -325,11 +325,10 @@ fun isImage(fileName: String?): Boolean {
  */
 
 fun getFileName(fileName: String?): String? {
-    val indexStart = fileName?.lastIndexOf("/") ?: 0
+    val indexStart = fileName?.lastIndexOf(File.separator) ?: 0
 //    val indexEnd = fileName?.lastIndexOf(".")
 //    return fileName?.substring(indexStart!! + 1, indexEnd!!)
     return fileName?.substring(indexStart + 1)?.trim()
-
 }
 
 
@@ -447,7 +446,6 @@ fun isMediaDocument(uri: Uri): Boolean {
  */
 fun getFilePathFromUri(context: Context?, uri: Uri): String? {
 
-
     val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
     // DocumentProvider
     if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
@@ -512,10 +510,10 @@ fun getFilePathFromUri(context: Context?, uri: Uri): String? {
 }
 
 /**
- * 保存图片
- *
- * @param bm
+ * Created by Ekhui on 2020/8/5.
+ * 作用：保存图片
  */
+
 @Throws(IOException::class)
 fun saveFile(bm: Bitmap, context: Context) {
     val dirFile =
@@ -539,16 +537,15 @@ fun saveFile(bm: Bitmap, context: Context) {
     context.sendBroadcast(intent)
 }
 
-fun openFile(context: Context, filePath: String, applicationID: String) {
-
-    val path = filePath
-
-    var contentUri: Uri? = null
-
-    contentUri = if (path.startsWith("content://")) {
-        Uri.parse(path)
+/**
+ * Created by Ekhui on 2020/8/5.
+ * 作用：用第三方APP打开文件
+ */
+fun openFileByThirdAPP(context: Application, filePath: String, applicationID: String) {
+    val contentUri = (if (filePath.startsWith("content://")) {
+        Uri.parse(filePath)
     } else {
-        val newFile = File(path)
+        val newFile = File(filePath)
         try {
             val authority = "${applicationID}.fileprovider"
             FileProvider.getUriForFile(context, authority, newFile)
@@ -556,46 +553,59 @@ fun openFile(context: Context, filePath: String, applicationID: String) {
             //                sendEvent(OPEN_EVENT, currentId, e.getMessage());
             return
         }
-    }
-    if (contentUri == null) {
-//            sendEvent(OPEN_EVENT, currentId, "Invalid file");
-        return
-    }
-    val extension: String = MimeTypeMap.getFileExtensionFromUrl(path).toLowerCase()
-    val mimeType = MapTable.getMIMEType(path)
+    })
 
-    val shareIntent = Intent()
+    val extension: String = MimeTypeMap.getFileExtensionFromUrl(filePath).toLowerCase(Locale.ROOT)
+    val mimeType = MapTable.getMIMEType(filePath)
 
-    shareIntent.action = Intent.ACTION_VIEW
-    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    shareIntent.setDataAndType(contentUri, mimeType)
-    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+    val shareIntent = Intent().apply {
+        action = Intent.ACTION_VIEW
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        setDataAndType(contentUri, mimeType)
+        putExtra(Intent.EXTRA_STREAM, contentUri)
+    }
+
     //        shareIntent.setType("*/*");//此处可发送多种文件
-    val intentActivity: Intent
-
-    intentActivity = Intent.createChooser(shareIntent, "请选择对应的软件打开")
+    val intentActivity = Intent.createChooser(shareIntent, "请选择对应的软件打开")
     val pm: PackageManager = context.packageManager
 
     if (shareIntent.resolveActivity(pm) != null) {
         try {
             context.startActivity(intentActivity)
             //                sendEvent(OPEN_EVENT, currentId, null);
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
 //                sendEvent(OPEN_EVENT, currentId, e.getMessage());
         }
     } else {
         try {
             if (mimeType == null) {
-                throw java.lang.Exception("暂不支持该文件类型")
+                throw Exception("暂不支持该文件类型")
             }
             val storeIntent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse("market://search?q=$mimeType&c=apps")
             )
-            throw java.lang.Exception("没有可以打开该文件的APP")
-        } catch (e: java.lang.Exception) {
+            throw Exception("没有可以打开该文件的APP")
+        } catch (e: Exception) {
 //                sendEvent(OPEN_EVENT, currentId, e.getMessage());
         }
     }
 
+}
+
+/**
+ * Created by Ekhui on 2020/8/5.
+ * 作用：计算文件大小 进来的参数为k
+ */
+
+fun getFileSize(size: String?): String {
+    size?.toDoubleOrNull().apply {
+        return when {
+            this == null -> "未知大小"
+            this < 1024 -> "${this.toFix()}KB"
+            this < 1024 * 1024 -> "${(this / 1024).toFix()}MB"
+            this < 1024 * 1024 * 1024 -> "${(this / 1024 / 1024).toFix()}GB"
+            else -> "${(this / 1024 / 1024 / 1024).toFix()}TB"
+        }
+    }
 }

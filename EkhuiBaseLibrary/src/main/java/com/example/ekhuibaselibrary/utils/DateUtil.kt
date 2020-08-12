@@ -113,6 +113,16 @@ object DateUtil {
     }
 
     /*
+      * Created by Ekhui on 2019/11/22.
+      * 作用：获取当前年份
+      */
+    fun getCurYear(): Int {
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        return calendar.get(Calendar.YEAR)
+    }
+
+    /*
     * Created by Ekhui on 2019/11/22.
     * 作用：根据date获取年份
     * 返回: int 年份
