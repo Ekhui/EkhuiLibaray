@@ -3,7 +3,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply from: "config.gradle"
-apply plugin: "com.blankj.bus"
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.Ekhui'
 
 android {
     dataBinding {
@@ -35,17 +36,4 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation project.ext.testLibs
-    kapt "android.arch.persistence.room:compiler:2.1.4"
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
-    implementation project.ext.supportLibs
-    implementation project.ext.lifecycleLibs
-    implementation project.ext.glideLibs
-    implementation project.ext.uiLibs
-    implementation project.ext.networkLibs
-    implementation project.ext.thridToolsLibs
 }
