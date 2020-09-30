@@ -30,11 +30,11 @@ project.ext {
 
     UIList = [
             materialprogressbar: 'cn.bingoogolapple:bga-progressbar:1.0.1@aar',
-            vheel             : 'com.contrarywind:Android-PickerView:4.1.9',
+//            vheel             : 'com.contrarywind:Android-PickerView:4.1.9',
             circleDialog      : 'com.mylhyl:circleDialog:5.3.4',
-            banner            : 'com.youth.banner:banner:1.4.10',
-            viewpager2        : "androidx.viewpager2:viewpager2:1.0.0",
-            actionSheet       : 'com.github.WindSekirun:ActionSheet:1.0.0',
+//            banner            : 'com.youth.banner:banner:1.4.10',
+//            viewpager2        : "androidx.viewpager2:viewpager2:1.0.0",
+//            actionSheet       : 'com.github.WindSekirun:ActionSheet:1.0.0',
             smartRefreshLayout: 'com.scwang.smart:refresh-layout-kernel:2.0.1',
             smartRefreshFooter: 'com.scwang.smart:refresh-footer-ball:2.0.1',
             smartRefreshHeader: 'com.scwang.smart:refresh-header-material:2.0.1']
@@ -44,7 +44,7 @@ project.ext {
             roomRuntime: 'android.arch.persistence.room:runtime:2.1.4']
 
     ThridToolsList = [
-            material : 'com.google.android.material:material:1.2.0-alpha02',
+//            material : 'com.google.android.material:material:1.2.0-alpha02',
             permission: 'com.yanzhenjie:permission:2.0.3',
             utilcodex: 'com.blankj:utilcodex:1.29.0'
     ]
@@ -60,16 +60,17 @@ project.ext {
             stethoOkhttp3: 'com.facebook.stetho:stetho-okhttp3:1.5.1']
 
     NetworkList = [
-            interceptor     : 'com.squareup.okhttp3:logging-interceptor:4.8.0',
-            okhttp3         : 'com.squareup.okhttp3:okhttp:4.8.0',
-            retrofit2       : 'com.squareup.retrofit2:retrofit:2.9.0',
-            retrofit2Gson   : 'com.squareup.retrofit2:converter-gson:2.9.0',
-            retrofit2Adapter: 'com.squareup.retrofit2:adapter-rxjava3:2.9.0',
             rxjava3         : 'io.reactivex.rxjava3:rxjava:3.0.2',
             rxandroid       : 'io.reactivex.rxjava3:rxandroid:3.0.0',
             rxlife3         : 'com.ljx.rxlife3:rxlife-rxjava:3.0.0',
             rxlifeCoroutine : 'com.ljx.rxlife:rxlife-coroutine:2.0.0',
-            rxhttp          : 'com.ljx.rxhttp:rxhttp:2.2.8']
+//            rxhttp          : 'com.ljx.rxhttp:rxhttp:2.2.8',
+            interceptor     : 'com.squareup.okhttp3:logging-interceptor:4.8.0',
+            okhttp3         : 'com.squareup.okhttp3:okhttp:4.8.0',
+            retrofit2       : 'com.squareup.retrofit2:retrofit:2.9.0',
+            retrofit2Gson   : 'com.squareup.retrofit2:converter-gson:2.9.0',
+            retrofit2Adapter: 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    ]
 
     TestList = [
             legacy    : 'androidx.legacy:legacy-support-v4:1.0.0',
