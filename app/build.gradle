@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: "config.gradle"
 apply plugin: 'com.github.dcendents.android-maven'
+apply from: "../config.gradle"
 group = 'com.github.Ekhui'
 
 android {
@@ -31,9 +31,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation project.ext.supportLibs
+    implementation project.ext.lifecycleLibs
+    implementation project.ext.glideLibs
+    implementation project.ext.uiLibs
+    implementation project.ext.networkLibs
+    implementation project.ext.thridToolsLibs
 }
