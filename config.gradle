@@ -47,7 +47,7 @@ project.ext {
     ThridToolsList = [
 //            material : 'com.google.android.material:material:1.2.0-alpha02',
 permission: 'com.yanzhenjie:permission:2.0.3',
-utilcodex : 'com.blankj:utilcodex:1.29.0'
+utilcodex : 'com.blankj:utilcodex:1.30.4'
     ]
 
     GlideList = [

@@ -9,11 +9,13 @@ import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.os.Build
 import android.os.Build.VERSION
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import java.io.File
@@ -24,6 +26,7 @@ import java.lang.ref.SoftReference
  * Created by Ekhui on 2018/4/12.
  */
 
+@RequiresApi(Build.VERSION_CODES.KITKAT)
 class ScreenTools(private val _activity: SoftReference<AppCompatActivity>) {
 
     var imageName: String? = null   //照片保存的名字
@@ -132,6 +135,7 @@ class ScreenTools(private val _activity: SoftReference<AppCompatActivity>) {
      * Created by Ekhui on 2018/4/12.
      * 作用：判断权限
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun canStart(): Boolean {
         Log.d(TAG, "canStart")
         return if (_mediaProjection != null) {
@@ -148,11 +152,13 @@ class ScreenTools(private val _activity: SoftReference<AppCompatActivity>) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setUpVirtualDisplay() {
         _virtualDisplay = _mediaProjection?.createVirtualDisplay("ScreenTools", _windowWidth, _windowHeight, _screenDensity,
                 16, _imageReader?.surface, null, null)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setUpMediaProjection() {
         _mediaProjection = _mediaProjectionManager?.getMediaProjection(_resultCode, _resultData
                 ?: return)
@@ -216,6 +222,7 @@ class ScreenTools(private val _activity: SoftReference<AppCompatActivity>) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun clear() {
         _bitmap?.recycle()
         _bitmap = null
